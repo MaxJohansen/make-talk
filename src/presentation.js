@@ -21,7 +21,7 @@ import picard from "./assets/picard.png";
 import preloader from "spectacle/lib/utils/preloader";
 import createTheme from 'spectacle/lib/themes/default';
 import Terminal from "spectacle-terminal";
-import {mainc, helloc, helloh, first, second, third} from './code'
+import {mainc, helloc, helloh, dummy, first, second, third} from './code'
 
 const CustomCode = styled(Code)`
   color: #5e81ac;
@@ -79,8 +79,8 @@ export default class Presentation extends React.Component {
             What is make?
           </Heading>
           A build tool that performs tasks according to rules in a Makefile.
-          <List ordered textAlign="center" transition={['slide']}>
-            <Appear transition={['zoom']}>
+          <List ordered textAlign="center">
+            <Appear>
               <ListItem>Simple</ListItem>
             </Appear>
             <Appear>
@@ -98,10 +98,84 @@ export default class Presentation extends React.Component {
           <Appear>
             <div>
               <Text textColor="secondary" bold>Common use case:</Text>
-              <Text textColor="quaternary">creating artifacts while rebuilding the minimum amount of dependencies</Text> 
+              <Text textColor="quaternary">creating artifacts (files) with the minimum amount of work</Text>
             </div>
           </Appear>
         </Slide>
+        <Slide>
+          <Heading size={4} textColor="tertiary" bold>
+            The anatomy of a Makefile
+          </Heading>
+          <List>
+            <Appear>
+              <ListItem>
+                Rules
+              </ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>
+                Macros (also used as variables)
+              </ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>
+                Comments
+              </ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>
+                Directives (conditionals, including other Makefiles, etc)
+              </ListItem>
+            </Appear>
+          </List>
+          <Notes>
+            <ul>
+              <li>Everything after # is ignored</li>
+              <li>Empty lines ignored</li>
+              <li>Every command is run in a separate shell</li>
+              <li>Indents must be tabs!</li>
+            </ul>
+          </Notes>
+        </Slide>
+        <CodeSlide
+        transition={['slide']}
+        lang="makefile"
+        code={dummy}
+        ranges={[
+          { loc: [0, 15], title: "Makefile example" },
+          { loc: [0, 1], title: "Variable" },
+          { loc: [2, 3], title: "Comment"},
+          { loc: [3, 8], title: "Rule"},
+          { loc: [3, 4], title: "Target and dependencies" },
+          { loc: [4, 8], title: "Commands" },
+          { loc: [9, 16], title: "More targets" }
+        ]}/>
+        <Slide transition={[ "spin" ]} bgColor="primary">
+          <Terminal isMaximized title="make tutorial" output={[
+            ["$ ", "$ make"],
+            <div>
+              <div>>>> creating eggs...</div>
+              <div>touch eggs</div>
+              <div>>>> creating sugar...</div>
+              <div>touch sugar</div>
+              <div>>>> ready to create cake</div>
+              <div>ls</div>
+              <div>eggs Makefile sugar</div>
+              <div>touch cake</div>
+              <div>>>> have a chocolate bar!</div>
+            </div>,
+            ["$ ", "$ ls"],
+            <div>
+              <div>cake eggs Makefile sugar</div>
+            </div>,
+            <div>
+              <div>$ make</div>
+              <div>make: 'target' is up to date.</div>
+            </div>
+            ]}
+          />
+        </Slide>
+
         <Slide>
           <Heading size={3} textColor="tertiary">
             Our case study
@@ -110,63 +184,24 @@ export default class Presentation extends React.Component {
             <div>
               <Text textColor="quaternary">Hello function and accompanying header</Text>
               <div style={{display: "inline-flex", justifyContent: "space-evenly"}}>
-                <CodePane style={{margin: "10px"}}lang="c" source={helloc} theme="external" />
-                <CodePane lang="c" source={helloh} theme="external"/>
+                <CodePane lang="clike" source={helloc} theme="external" style={{margin: "10px", fontSize: "18px"}} />
+                <CodePane lang="clike" source={helloh} theme="external" style={{fontSize: "18px"}}/>
               </div>
             </div>
           </Appear>
           <Appear>
             <div>
-              <Text textColor="quaternary">Main file</Text>
               <div style={{display: "inline-flex"}}>
-                <CodePane lang="c" source={mainc} theme="external"/>
+                <Text textColor="quaternary">Main file</Text>
+                <CodePane lang="clike" source={mainc} theme="external" style={{fontSize: "18px"}}/>
               </div>
             </div>
           </Appear>
           <Notes>
-            <p>
-              You all know C, right?
-            </p>
-            <p>
-              Not important, just know that we will use these files to generate an executable binary
-            </p>
-            <p>
-              make is overkill here, but imagine a larger application
-            </p>
-
-          </Notes>
-        </Slide>
-        <Slide>
-          <Heading size={4} textColor="quaternary" bold>
-            The anatomy of a Makefile
-          </Heading>
-          <List>
-            <Appear>
-              <ListItem>
-                Targets (rules)
-              </ListItem>
-            </Appear>
-            <Appear>
-              <ListItem>
-                Prerequisites (dependencies)
-              </ListItem>
-            </Appear>
-            <Appear>
-              <ListItem>
-                Macros (variables)
-              </ListItem>
-            </Appear>
-            <Appear>
-              <ListItem>
-                Comments if you're a nerd
-              </ListItem>
-            </Appear>
-          </List>
-          <Notes>
             <ul>
-              <li>Everything after # is ignored</li>
-              <li>Empty lines ignored</li>
-              <li>Indents must be tabs!</li>
+              <li>You all know C, right?</li>
+              <li>Not important, just know that we will use these files to generate an executable binary</li>
+              <li>make is overkill here, but imagine a larger application</li>
             </ul>
           </Notes>
         </Slide>
@@ -176,74 +211,31 @@ export default class Presentation extends React.Component {
           code={first}
           ranges={[
             { loc: [0, 11], title: "Makefile v1.0" },
-            { loc: [0, 1], title: "Target" },
-            { loc: [1, 2], title: "Commands" },
-            { loc: [3, 8], title: "More targets" },
-            { loc: [9, 11], note: "What does this target create?" }
-          ]}/>
-        <Slide transition={[ "spin" ]} bgColor="primary">
-          <Terminal isMaximized title="make tutorial" output={[
-            ["$ ", "$ make"],
-            <div>
-              <div>gcc -Wall main.c -c</div>
-              <div>gcc -Wall hello.c -c</div>
-              <div>gcc -Wall main.o hello.o -o hello</div>
-            </div>,
-            <div>
-              <div style={{ color: "#DEC612"}}># now if we edit a file</div>
-              <div>$ nano main.c</div>
-            </div>,
-            <div>
-              <div style={{ color: "#33B969"}}># make sees that only main.c has changed</div>
-              <div>$ make</div>
-              <div>gcc -Wall main.c -c</div>
-              <div>gcc -Wall main.o hello.o -o hello</div>
-            </div>,
-            <div>
-              <div>$ ls</div>
-              <div>hello*  hello.c  hello.h  hello.o  main.c  main.o  Makefile</div>
-            </div>,
-            <div>
-              <div>$ make clean</div>
-              <div>rm -f *.o hello</div>
-              <div style={{ color: "#DEC612"}}># all of our generated files are gone</div>
-            </div>,
-            ]}
-          />
-        </Slide>
-        <CodeSlide
-          transition={['slide']}
-          lang="makefile"
-          code={`FOO = bar
-BAZ := qux
-BAZ += quux
-
-test:
-    @echo FOO is: $(FOO)
-    @echo BAZ is: $(BAZ)`}
-          ranges={[
-            { loc: [0, 3], title: "Keep your Makefile DRY" },
-            { lo1c: [0, 1], title: "Variables", note: "Recursive (expands when referenced)" },
-            { loc: [1, 2], title: "Variables", note: "Simple (does not expand)" },
-            { loc: [2, 3], title: "Variables", note: "Concatenation (adds to what's already there)" },
-            { loc: [4, 7] },
-            { loc: [5, 6], note: "FOO is: bar"},
-            { loc: [6, 7], note: "BAZ is: qux quux"},
+            { loc: [0, 1], title: "What we want" },
+            { loc: [1, 2], title: "How to build it" },
+            { loc: [9, 11], title: "What does this target create?" }
           ]}/>
         <CodeSlide
           transition={['slide']}
           lang="makefile"
           code={second}
           ranges={[
-            { loc: [0, 14], title: "Makefile v2.0"},
-            { loc: [0, 2] },
-            { loc: [4, 6] }
+            { loc: [0, 17], title: "Makefile v2.0"},
+            { loc: [0, 2], title: "Simple variables" },
+            { loc: [4, 6] },
+            { loc: [7, 12], title: "Reduced repetition" },
+            { loc: [13, 15] },
+            { loc: [13, 17], title: "A special PHONY target" }
           ]}/>
           <Slide>
-            <Heading size={6} bold caps textColor="quaternary">
-              Automatic variables
+            <Heading size={2} caps textColor="quaternary">
+              Predefined variables
             </Heading>
             <List style={{listStyle: 'none'}}>
+              <ListItem>
+                <CustomCode>$@</CustomCode>
+                - Name of target
+              </ListItem>
               <ListItem>
                 <CustomCode>$&lt;</CustomCode>
                 - The first prerequisite
@@ -257,11 +249,24 @@ test:
                 - All newer prerequisites
               </ListItem>
               <ListItem>
-                <CustomCode>$@</CustomCode>
-                - Name of target
+                ... and more!
+              </ListItem>
+            </List>
+            <List style={{listStyle: 'none'}}>
+              <ListItem>
+                <CustomCode>$(CC)</CustomCode>
+                - The C compiler (defaults to cc)
               </ListItem>
               <ListItem>
-                ... and more!
+                <CustomCode>$(CFLAGS)</CustomCode>
+                - Flags for CC (empty by default)
+              </ListItem>
+              <ListItem>
+                <CustomCode>$(RM)</CustomCode>
+                - The command used to remove files
+              </ListItem>
+              <ListItem>
+                ... and more, mostly outdated!
               </ListItem>
             </List>
           </Slide>
@@ -270,9 +275,9 @@ test:
           lang="makefile"
           code={third}
           ranges={[
-            { loc: [0, 14], title: "Makefile v3.0"},
-            { loc: [0, 2] },
-            { loc: [4, 5] }
+            { loc: [0, 16], title: "Makefile v3.0"},
+            { loc: [4, 6], title: "Automatic variables" },
+            { loc: [7, 11], title: "Pattern target" }
           ]}/>
       </Deck>
     );
