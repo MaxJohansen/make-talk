@@ -1,0 +1,15 @@
+CC = gcc
+CFLAGS = -Wall -g
+
+.PHONY: clean
+
+hello: main.o hello.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+%.o: %.c hello.h
+	$(CC) $(CFLAGS) $< -c
+
+clean:
+	rm -f *.o hello
+
+.PHONY: clean
