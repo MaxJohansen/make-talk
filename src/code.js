@@ -3,13 +3,13 @@ const mainc = `#include <stdio.h>
 
 int main(int argc, char** argv)
 {
-		hello(NULL);
-		// Greet the commandline arguments in reverse order
-		while(argc-- > 1)
-		{
-				hello(argv[argc]);
-		}
-		return 0;
+	hello(NULL);
+	// Greet the commandline arguments in reverse order
+	while(argc-- > 1)
+	{
+		hello(argv[argc]);
+	}
+	return 0;
 }
 `
 
@@ -18,8 +18,8 @@ const helloc = `#include <stdio.h>
 
 void hello(char *name)
 {
-		if (name == NULL) name = "world";
-		printf("Hello, %s!\\n", name);
+	if (name == NULL) name = "world";
+	printf("Hello, %s!\\n", name);
 }
 
 `

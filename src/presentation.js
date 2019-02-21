@@ -35,6 +35,7 @@ require('normalize.css');
 
 const theme = createTheme(
   {
+    // The colors are from the Nord palette
     primary: '#2e3440',
     secondary: '#88c0d0',
     tertiary: '#81a1c1',
