@@ -16,12 +16,10 @@ import {
 } from 'spectacle';
 import CodeSlide from 'spectacle-code-slide';
 import styled from 'react-emotion';
-import shiaLabeoufMagicGif from "./assets/shiaLabeoufMagic.gif"
-import picard from "./assets/picard.png";
-import preloader from "spectacle/lib/utils/preloader";
 import createTheme from 'spectacle/lib/themes/default';
 import Terminal from "spectacle-terminal";
 import {mainc, helloc, helloh, dummy, first, second, third} from './code'
+import 'prismjs/components/prism-makefile';
 
 const CustomCode = styled(Code)`
   color: #5e81ac;
@@ -31,10 +29,6 @@ const CustomCode = styled(Code)`
   padding: 0 10px;
   border-radius: 3;
 `;
-
-preloader({
-  shiaLabeoufMagicGif, picard
-});
 
 // Require CSS
 require('normalize.css');
@@ -64,7 +58,7 @@ export default class Presentation extends React.Component {
           <Heading size={1} fit caps lineHeight={1} textColor="secondary">
             Make it so
           </Heading>
-          <Text margin="10px 0 0">
+          <Text textColor="tertiary" margin="10px 0 0">
             TD-talk by Mads Johansen
           </Text>
           <Text margin="10px 0 0" textColor="tertiary" fit bold>
@@ -90,17 +84,19 @@ export default class Presentation extends React.Component {
               <ListItem>Ubiquitous</ListItem>
             </Appear>
           </List>
-          <Notes>
-            <p>Simple to understand, hard to master</p>
-            <p>Can do pretty much anything except automatically download deps</p>
-            <p>Older than all of us (even me)</p>
-          </Notes>
           <Appear>
             <div>
               <Text textColor="secondary" bold>Common use case:</Text>
               <Text textColor="quaternary">creating artifacts (files) with the minimum amount of work</Text>
             </div>
           </Appear>
+          <Notes>
+            <ul>
+              <li>Simple to understand, hard to master</li>
+              <li>Can do pretty much anything except automatically download deps</li>
+              <li>Other build tools use the same concepts: bake, cake, fake, rake, snaaake</li>
+            </ul>
+          </Notes>
         </Slide>
         <Slide>
           <Heading size={4} textColor="tertiary" bold>
@@ -130,10 +126,10 @@ export default class Presentation extends React.Component {
           </List>
           <Notes>
             <ul>
+              <li>Indents must be tabs!</li>
               <li>Everything after # is ignored</li>
               <li>Empty lines ignored</li>
               <li>Every command is run in a separate shell</li>
-              <li>Indents must be tabs!</li>
             </ul>
           </Notes>
         </Slide>
@@ -142,7 +138,7 @@ export default class Presentation extends React.Component {
         lang="makefile"
         code={dummy}
         ranges={[
-          { loc: [0, 15], title: "Makefile example" },
+          { loc: [0, 16], title: "Makefile example" },
           { loc: [0, 1], title: "Variable" },
           { loc: [2, 3], title: "Comment"},
           { loc: [3, 8], title: "Rule"},
@@ -170,12 +166,18 @@ export default class Presentation extends React.Component {
             </div>,
             <div>
               <div>$ make</div>
-              <div>make: 'target' is up to date.</div>
+              <div>make: 'cake' is up to date.</div>
             </div>
             ]}
           />
+          <Notes>
+            <ul>
+              <li>Uses timestamps</li>
+              <li>Prerequisites first</li>
+              <li>Echo was silenced, touch was not</li>
+            </ul>
+          </Notes>
         </Slide>
-
         <Slide>
           <Heading size={3} textColor="tertiary">
             Our case study
@@ -201,6 +203,7 @@ export default class Presentation extends React.Component {
             <ul>
               <li>You all know C, right?</li>
               <li>Not important, just know that we will use these files to generate an executable binary</li>
+              <li>Today you can just feed the C source files to gcc and it works</li>
               <li>make is overkill here, but imagine a larger application</li>
             </ul>
           </Notes>
@@ -269,16 +272,29 @@ export default class Presentation extends React.Component {
                 ... and more, mostly outdated!
               </ListItem>
             </List>
+            <Notes>
+              <ul>
+                <li>Most implicit rules were made 50 years ago, so they're outdated</li>
+                <li>Automatic have context (the current rule)</li>
+                <li>Built-in have default values (often outdated)</li>
+              </ul>
+            </Notes>
           </Slide>
           <CodeSlide
-          transition={['slide']}
-          lang="makefile"
-          code={third}
-          ranges={[
-            { loc: [0, 16], title: "Makefile v3.0"},
-            { loc: [4, 6], title: "Automatic variables" },
-            { loc: [7, 11], title: "Pattern target" }
+            transition={['slide']}
+            lang="makefile"
+            code={third}
+            ranges={[
+              { loc: [0, 16], title: "Makefile v3.0"},
+              { loc: [4, 6], title: "Automatic variables" },
+              { loc: [7, 11], title: "Pattern target" }
           ]}/>
+          <Slide>
+            <Heading textColor="quaternary" size={1} bold>
+              NOW GO make A DIFFERENCE
+            </Heading>
+            <Text textColor="tertiary">You have the power</Text>
+          </Slide>
       </Deck>
     );
   }
